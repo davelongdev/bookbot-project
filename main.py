@@ -114,40 +114,41 @@ def print_report(
 
     # print opening info
     print('')
-    print('-- book analysis --')
+    print('---- book analysis ----')
+    print('')
     print(f'{word_number} words found in the book')
 
     # print info for all chars sorted
     print('')
-    print('-- All Characters Sorted --')
+    print('---- All Characters Sorted ----')
     print('')
     for item in sorted_chars:
         if item["char"] == '\n':
-            print(f"The '\\n' character was found {item} times")
+            print(f"The '\\n' character was found {item['num']} times")
         else:
-            print(f"The '{item['char']}' character was found {item} times")
+            print(f"The '{item['char']}' character was found {item['num']} times")
 
     print('')
-    print('-- Alphabet Characters Sorted --')
+    print('---- Alphabet Characters Sorted ----')
     print('')
 
     # print info for alpha chars sorted
     for item in sorted_alpha_chars:
-        print(f"The '{item['char']}' character was found {item} times")
+        print(f"The '{item['char']}' character was found {item['num']} times")
 
     # print info for non-alpha chars sorted
     print('')
-    print('-- Non-Alphabet Characters Sorted --')
+    print('---- Non-Alphabet Characters Sorted ----')
     print('')
     for item in sorted_non_alpha_chars:
         if item["char"] == '\n':
-            print(f"The '\\n' character was found {item} times")
+            print(f"The '\\n' character was found {item['num']} times")
         else:
-            print(f"The '{item['char']}' character was found {item} times")
+            print(f"The '{item['char']}' character was found {item['num']} times")
 
     # print closing info
     print('')
-    print('--- end report ---')
+    print('---- end report ----')
     print('')
 
 
