@@ -11,74 +11,28 @@ def main():
     # Count the words in the text file
     word_number = count_words(text)
 
-    # Count all the characters in the file
+    # Create a dict where k is the char and v is the number of times it appears
     char_dict = count_chars(text)
 
-    # Count the alphanumeric and non-alphanumeric characters seperately
+    # Create dicts to count the alphabet and non-alphabet characters
     alpha_char_dict, non_alpha_char_dict = split_char_types(char_dict)
 
+    # sort all the characters
+    sorted_chars = dict_to_sorted_list(char_dict)
+
     # Sort the alphanumeric characters
-    alpha_chars_sorted = 'insert func'
+    sorted_alpha_chars = dict_to_sorted_list(alpha_char_dict)
 
     # Sort the non-alphanumeric characters
-    non_alpha_chars_sorted = 'insert func'
+    sorted_non_alpha_chars = dict_to_sorted_list(non_alpha_char_dict)
 
     # Print a report of the analysis to the console
-    print_report(word_number, char_dict)
-
-
-def split_char_types(char_dict):
-    '''Take in the char_dict dictionary with all chars in the original txt
-    file and retuns a dictionary of the 26 alphabet characters'''
-
-    alpha_char_dict = {}
-    non_alpha_char_dict = {}
-    for k, v in char_dict.items():
-        if k.isalpha():
-            alpha_char_dict[k] = v
-        else:
-            non_alpha_char_dict[k] = v
-    return alpha_char_dict, non_alpha_char_dict
-
-
-def print_report(word_number, char_dict):
-    '''Print a report analyzing the text file'''
-
-    print('-- book analysis --')
-    print(f'{word_number} words found in the book')
-
-    list_of_dicts = []
-    for k,v in char_dict.items():
-        # list_of_dicts.append({k[0]: v})
-        list_of_dicts.append({'char':k, 'num':v})
-
-    list_of_alpha_char_dicts = []
-    for k,v in alpha_char_dict.items():
-        # list_of_dicts.append({k[0]: v})
-        list_of_alpha_char_dicts.append({'char':k, 'num':v})
-
-    def sort_on(dict):
-        return dict['num']
-
-    list_of_alpha_char_dicts.sort(reverse=True, key=sort_on)
-
-    sorted_alpha = {}
-
-    for ii in list_of_alpha_char_dicts:
-        # for k,v in dict.items():
-        count = 0
-        for key in ii:
-            if count == 0:
-                new_key = ii[key]
-                count += 1
-            else:
-                new_val = ii[key]
-        sorted_alpha[new_key] = new_val
-    
-    for ii in sorted_alpha:
-        print(f'the {ii} char was found {sorted_alpha[ii]} times.')
-
-    print('--- end report ---')
+    print_report(
+        word_number,
+        sorted_chars,
+        sorted_alpha_chars,
+        sorted_non_alpha_chars
+    )
 
 
 def get_file_text(path):
@@ -116,6 +70,85 @@ def count_chars(text):
         if ii in dict:
             dict[ii] += 1
     return dict
+
+
+def split_char_types(char_dict):
+    '''Take in the char_dict dictionary with all chars in the original txt
+    file and retun a dictionary of the 26 alphabet characters and a dictionary
+    of all the non-alphabet characters'''
+
+    alpha_char_dict = {}
+    non_alpha_char_dict = {}
+    for k, v in char_dict.items():
+        if k.isalpha():
+            alpha_char_dict[k] = v
+        else:
+            non_alpha_char_dict[k] = v
+    return alpha_char_dict, non_alpha_char_dict
+
+
+def sort_on(dict):
+    '''A function to pass to the python's sort function
+    to control the sorting'''
+
+    return dict['num']
+
+
+def dict_to_sorted_list(dict):
+    '''Sort characters in a dict and return a sorted list of dicts'''
+
+    sorted_list = []
+    for ch in dict:
+        sorted_list.append({"char": ch, "num": dict[ch]})
+    sorted_list.sort(reverse=True, key=sort_on)
+    return sorted_list
+
+
+def print_report(
+        word_number,
+        sorted_chars,
+        sorted_alpha_chars,
+        sorted_non_alpha_chars
+):
+    '''Print a report analyzing the text file'''
+
+    # print opening info
+    print('')
+    print('-- book analysis --')
+    print(f'{word_number} words found in the book')
+
+    # print info for all chars sorted
+    print('')
+    print('-- All Characters Sorted --')
+    print('')
+    for item in sorted_chars:
+        if item["char"] == '\n':
+            print(f"The '\\n' character was found {item} times")
+        else:
+            print(f"The '{item['char']}' character was found {item} times")
+
+    print('')
+    print('-- Alphabet Characters Sorted --')
+    print('')
+
+    # print info for alpha chars sorted
+    for item in sorted_alpha_chars:
+        print(f"The '{item['char']}' character was found {item} times")
+
+    # print info for non-alpha chars sorted
+    print('')
+    print('-- Non-Alphabet Characters Sorted --')
+    print('')
+    for item in sorted_non_alpha_chars:
+        if item["char"] == '\n':
+            print(f"The '\\n' character was found {item} times")
+        else:
+            print(f"The '{item['char']}' character was found {item} times")
+
+    # print closing info
+    print('')
+    print('--- end report ---')
+    print('')
 
 
 # call the main function
